@@ -17,7 +17,7 @@ char get_item(char *str, int limit)
   *w++ = c;
   --limit;
 
-  if (c == '+' || c == '*') {
+  if (c == '+' || c == '*' || c == '-' || c == '/') {
     *w = '\0';
     return 1;
   }
@@ -37,14 +37,22 @@ int main()
   char str[MAX_STR];
 
   while(get_item(str, MAX_STR) != EOF) {
-    printf("--- %s --- \n", str);
     char c = str[0];
+    int right_operand;
     switch(c) {
       case '+':
         push(array, pop(array) + pop(array));
         break;
       case '*':
         push(array, pop(array) * pop(array));
+        break;
+      case '-':
+        right_operand = pop(array);
+        push(array, pop(array) - right_operand);
+        break;
+      case '/':
+        right_operand = pop(array);
+        push(array, pop(array) / right_operand);
         break;
       default:
         push(array, atoi(str)); 
